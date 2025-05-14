@@ -14,7 +14,7 @@ export default function AddProductPage() {
     localStorage.setItem('addedProducts', JSON.stringify(parsed));
 
     alert('Product added successfully!');
-    router.push('cart'); 
+    router.push('addNewProduct'); 
   };
 
   return <AddProductForm onAdd={handleAdd} />;
