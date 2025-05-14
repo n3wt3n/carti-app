@@ -2,10 +2,11 @@
 
 import AddProductForm from '../components/AddProductForm/AddProducts';
 import { useRouter } from 'next/navigation';
+import { ProductCardProps } from '../components/ProductCard';
 export default function AddProductPage() {
   const router = useRouter();
 
-  const handleAdd = (product: any) => {
+  const handleAdd = (product: ProductCardProps) => {
     const existing = localStorage.getItem('addedProducts');
     const parsed = existing ? JSON.parse(existing) : [];
 

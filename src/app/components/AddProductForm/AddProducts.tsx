@@ -2,7 +2,6 @@
 import { addProductValidationSchema } from './Validation';
 import { useFormik } from 'formik';
 import styles from './AddProductForm.module.css';
-import { useState } from 'react';
 
 type Product = {
   name: string;
@@ -15,7 +14,7 @@ type Product = {
 
 const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
   const formik = useFormik<Product>({
-    initialValues:  {
+    initialValues: {
       name: '',
       price: 0,
       size: '',
@@ -34,14 +33,19 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <h2 className={styles.heading}>Add a New Product</h2>
 
+      {/* Name */}
       <div className={styles.field}>
         <input
           className={styles.input}
           placeholder="Product Name"
           {...formik.getFieldProps('name')}
         />
+        {formik.touched.name && formik.errors.name && (
+          <div className={styles.error}>{formik.errors.name}</div>
+        )}
       </div>
 
+      {/* Price */}
       <div className={styles.field}>
         <input
           className={styles.input}
@@ -49,40 +53,60 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
           placeholder="Price"
           {...formik.getFieldProps('price')}
         />
+        {formik.touched.price && formik.errors.price && (
+          <div className={styles.error}>{formik.errors.price}</div>
+        )}
       </div>
 
+      {/* Size */}
       <div className={styles.field}>
         <input
           className={styles.input}
           placeholder="Size"
           {...formik.getFieldProps('size')}
         />
+        {formik.touched.size && formik.errors.size && (
+          <div className={styles.error}>{formik.errors.size}</div>
+        )}
       </div>
 
+      {/* Quality */}
       <div className={styles.field}>
         <input
           className={styles.input}
           placeholder="Quality"
           {...formik.getFieldProps('quality')}
         />
+        {formik.touched.quality && formik.errors.quality && (
+          <div className={styles.error}>{formik.errors.quality}</div>
+        )}
       </div>
 
+      {/* Material */}
       <div className={styles.field}>
         <input
           className={styles.input}
           placeholder="Material"
           {...formik.getFieldProps('material')}
         />
+        {formik.touched.material && formik.errors.material && (
+          <div className={styles.error}>{formik.errors.material}</div>
+        )}
       </div>
 
+      {/* Image URL */}
       <div className={styles.field}>
         <input
           className={styles.input}
           placeholder="Image URL"
           {...formik.getFieldProps('imageUrl')}
         />
+        {formik.touched.imageUrl && formik.errors.imageUrl && (
+          <div className={styles.error}>{formik.errors.imageUrl}</div>
+        )}
       </div>
 
+      {/* Submit Button */}
       <button className={styles.button} type="submit">
         Add Product
       </button>

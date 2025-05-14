@@ -1,5 +1,5 @@
 'use client';
-
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type Product = {
@@ -24,7 +24,7 @@ export default function CartPage() {
   const handleRemove = (nameToRemove: string) => {
     const updatedCart = cart.filter(item => item.name !== nameToRemove);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    setCart(updatedCart); // update state to re-render
+    setCart(updatedCart);
   };
 
   return (
@@ -36,7 +36,15 @@ export default function CartPage() {
         <div className="grid grid-cols-1 gap-4">
           {cart.map((product, index) => (
             <div key={index} className="border p-4 rounded shadow">
-              <img src={product.imageUrl} alt={product.name} className="w-32 h-32 object-cover mb-2" />
+              <div className="mb-2">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={128}
+                  height={128}
+                  className="object-cover"
+                />
+              </div>
               <h2 className="text-xl font-semibold">{product.name}</h2>
               <p>Price: ${product.price}</p>
               <p>Size: {product.size}</p>

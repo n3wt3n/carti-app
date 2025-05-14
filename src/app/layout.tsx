@@ -13,12 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 // app/layout.tsx
-export const metadata = {
-  title: "My App",
-  icons: {
-    icon: "https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/car.svg",
-  },
+export const metadata: Metadata = {
+  title: 'My App',
+  description: 'This is my awesome app',
 };
+
 
 
 export default function RootLayout({
