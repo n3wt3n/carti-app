@@ -1,6 +1,15 @@
 // components/ProductCard.tsx
+import Image from 'next/image';
 
-import Image from "next/image";
+export type Product = {
+  name: string;
+  price: number;
+  size: string;
+  quality: string;
+  material: string;
+  imageUrl: string;
+  id?: number;
+};
 
 export type ProductCardProps = {
   name: string;
@@ -9,14 +18,9 @@ export type ProductCardProps = {
   quality: string;
   material: string;
   imageUrl: string;
-  onAddToCart?: (product: {
-    name: string;
-    price: number;
-    size: string;
-    quality: string;
-    material: string;
-    imageUrl: string;
-  }) => void;
+  id?: number; // <-- Required for delete API
+  onAddToCart?: (product: Product) => void;
+  onDelete?: (id: number) => void; // <-- NEW prop
 };
 
 const ProductCard = ({
@@ -26,7 +30,9 @@ const ProductCard = ({
   quality,
   material,
   imageUrl,
+  id,
   onAddToCart,
+  onDelete,
 }: ProductCardProps) => {
   const discountedPrice = price * 0.5;
 
@@ -47,21 +53,23 @@ const ProductCard = ({
         <p className="text-sm"><strong>Material:</strong> {material}</p>
 
         <button
-  onClick={() =>
-    onAddToCart &&
-    onAddToCart({
-      name,
-      price,
-      size,
-      quality,
-      material,
-      imageUrl,
-    })
-  }
-  className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md"
->
-  Add to Cart
-</button>
+          onClick={() =>
+            onAddToCart &&
+            onAddToCart({ name, price, size, quality, material, imageUrl })
+          }
+          className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-md"
+        >
+          Add to Cart
+        </button>
+
+        {onDelete && id !== undefined && (
+          <button
+            onClick={() => onDelete(id)}
+            className="mt-2 w-full bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-md"
+          >
+            Delete Product
+          </button>
+        )}
       </div>
     </div>
   );

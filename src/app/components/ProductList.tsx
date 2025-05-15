@@ -1,6 +1,5 @@
-// components/ProductList.ts
+import axios from 'axios';
 
-// This is the original shape from the fakestoreapi.com
 export type APIProduct = {
     id: number;
     title: string;
@@ -14,8 +13,8 @@ export type APIProduct = {
     };
   };
   
-  // Your local app product 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // local app product 
+
   export type Product = {
     name: string;
     price: number;
@@ -26,19 +25,25 @@ export type APIProduct = {
   };
   
   // Fetch and convert API products to your local format
-  export async function fetchProductsFromAPI(): Promise<Product[]> {
-    const response = await fetch('https://fakestoreapi.com/products');
-    const data: APIProduct[] = await response.json();
-  
-    return data.map((item) => ({
-      name: item.title,
-      price: item.price,
-      size: 'Medium',
-      quality: 'High',
-      material: 'Cotton',
-      imageUrl: item.image,
-    }));
-  }
+    export async function fetchProductsFromAPI(): Promise<Product[]> {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    
+      if (!apiUrl) {
+        throw new Error("API URL not defined in .env file");
+      }
+    
+      const response = await axios.get<APIProduct[]>(apiUrl);
+      const data = response.data;
+      
+      return data.map((apiProduct: APIProduct) => ({
+        name: apiProduct.title,
+        price: apiProduct.price,
+        size: "",
+        quality: "",
+        material: "",
+        imageUrl: apiProduct.image,
+      }));
+    }
   
   export default fetchProductsFromAPI;
   

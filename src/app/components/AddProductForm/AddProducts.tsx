@@ -1,7 +1,8 @@
 'use client';
 
-import { addProductValidationSchema } from './Validation';
+import axios from 'axios';
 import { useFormik } from 'formik';
+import { addProductValidationSchema } from './Validation';
 import styles from './AddProductForm.module.css';
 
 type Product = {
@@ -26,24 +27,29 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
     validationSchema: addProductValidationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await fetch('https://fakestoreapi.com/products', {
-          method: 'POST',
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+        if (!apiUrl) {
+          throw new Error('API URL not defined in .env file');
+        }
+
+        const productPayload = {
+          title: values.name,
+          price: values.price,
+          description: `${values.quality}, ${values.material}, Size: ${values.size}`,
+          image: values.imageUrl,
+          category: 'general',
+        };
+
+        const response = await axios.post(apiUrl, productPayload, {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            title: values.name,
-            price: values.price,
-            description: `${values.quality}, ${values.material}, Size: ${values.size}`,
-            image: values.imageUrl,
-            category: 'general',
-          }),
         });
 
-        const data = await response.json();
-        console.log('Posted to API:', data);
+        console.log('Posted to API:', response.data);
 
-        onAdd(values); // Save to localStorage and redirect
+        onAdd(values); // Update local app
         resetForm();
       } catch (error) {
         console.error('Error posting product:', error);
@@ -56,7 +62,7 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <h2 className={styles.heading}>Add a New Product</h2>
 
-      {/* Name */}
+      {/* Input Fields (same as before) */}
       <div className={styles.field}>
         <input
           className={styles.input}
@@ -129,7 +135,6 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
         )}
       </div>
 
-      {/* Submit Button */}
       <button className={styles.button} type="submit">
         Add Product
       </button>

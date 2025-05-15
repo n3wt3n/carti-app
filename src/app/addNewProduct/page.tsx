@@ -1,21 +1,12 @@
-'use client';
+'use client'; 
 
 import AddProductForm from '../components/AddProductForm/AddProducts';
 import { useRouter } from 'next/navigation';
-
-type Product = {
-  name: string;
-  price: number;
-  size: string;
-  quality: string;
-  material: string;
-  imageUrl: string;
-};
-
+import { ProductCardProps } from '../components/ProductCard';
 export default function AddProductPage() {
   const router = useRouter();
 
-  const handleAdd = (product: Product) => {
+  const handleAdd = (product: ProductCardProps) => {
     const existing = localStorage.getItem('addedProducts');
     const parsed = existing ? JSON.parse(existing) : [];
 
@@ -23,9 +14,9 @@ export default function AddProductPage() {
     localStorage.setItem('addedProducts', JSON.stringify(parsed));
 
     alert('Product added successfully!');
-    router.push('/'); // Go back to home or update as needed
+    router.push('addNewProduct'); 
   };
-  console.log("Product added to cart:");
+
   return <AddProductForm onAdd={handleAdd} />;
-  
 }
+
