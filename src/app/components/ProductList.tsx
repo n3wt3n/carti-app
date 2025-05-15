@@ -14,7 +14,8 @@ export type APIProduct = {
     };
   };
   
-  // Your local app product format
+  // Your local app product 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export type Product = {
     name: string;
     price: number;
