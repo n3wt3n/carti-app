@@ -25,6 +25,7 @@ export default function AddProductPage() {
     alert('Product added successfully!');
     router.push('/'); // Go back to home or update as needed
   };
-
+  console.log("Product added to cart:");
   return <AddProductForm onAdd={handleAdd} />;
+  
 }
