@@ -20,3 +20,4 @@ export default function AddProductPage() {
   return <AddProductForm onAdd={handleAdd} />;
 }
 
+``

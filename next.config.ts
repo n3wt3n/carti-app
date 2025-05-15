@@ -1,6 +1,8 @@
-// next.config.js
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ['your-image-domain.com'], // Example: 'images.unsplash.com'
+    domains: ['fakestoreapi.com'],
   },
 };
+
+module.exports = nextConfig;
