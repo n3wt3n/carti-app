@@ -1,4 +1,5 @@
 'use client';
+
 import { addProductValidationSchema } from './Validation';
 import { useFormik } from 'formik';
 import styles from './AddProductForm.module.css';
@@ -23,9 +24,31 @@ const AddProductForm = ({ onAdd }: { onAdd: (product: Product) => void }) => {
       imageUrl: '',
     },
     validationSchema: addProductValidationSchema,
-    onSubmit: (values, { resetForm }) => {
-      onAdd(values);
-      resetForm();
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: values.name,
+            price: values.price,
+            description: `${values.quality}, ${values.material}, Size: ${values.size}`,
+            image: values.imageUrl,
+            category: 'general',
+          }),
+        });
+
+        const data = await response.json();
+        console.log('Posted to API:', data);
+
+        onAdd(values); // Save to localStorage and redirect
+        resetForm();
+      } catch (error) {
+        console.error('Error posting product:', error);
+        alert('Failed to add product. Please try again.');
+      }
     },
   });
 
